@@ -382,71 +382,49 @@
                             Voto Electronico (si oe)
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <form role="form" method="post" action="result.php">
-                                    <div class="row">
-                                        <div class="form-group col-lg-6">
-                                            <label>Nombre</label>
-                                            <input class="form-control" id="name">
-                                            <p class="help-block">Obligatorio.</p>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Correo</label>
-                                            <input class="form-control" id="mail">
-                                            <p class="help-block">Obligatorio.</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-lg-6">
-                                            <label>Dirección</label>
-                                            <input class="form-control" id="addr">
-                                            <p class="help-block">Obligatorio.</p>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Género</label>
-                                            <select class="form-control" id="gender">
-                                              <option>Masculino</option>
-                                              <option>Femenino</option>
-                                              <option>Otro</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-lg-6">
-                                            <label>Vote por Concejal</label>
-                                            <select class="form-control" id="consejal">
-                                              <option>Concejal 1</option>
-                                              <option>Concejal 2</option>
-                                              <option>Concejal 3</option>
-                                              <option>Concejal 4</option>
-                                              <option>Concejal 5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Vote por Alcalde</label>
-                                            <select class="form-control" id="alcalde">
-                                              <option>Jorge Sharp ♥</option>
-                                              <option>DJ Mendez</option>
-                                              <option>Jorge Castro</option>
-                                              <option>El Lemus</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                        <div class="form-group col-lg-6 col-lg-offset-3">
-                                            <label>Comentario</label>
-                                            <textarea class="form-control" id="comentario" rows="3"></textarea>
-                                            <p class="help-block">Escriba algo sólo si desea anular su voto.</p>
-                                        </div>
-                                        <div class="row">
-                                        <button type="submit" class="col-lg-offset-5 col-lg-2 btn btn-default">Enviar</button>
-                                        </div>
-                                    </form>
+                            <?php 
+                            $enviado = isset($_POST['enviado']) ? (int) $_POST['enviado'] : 0;
+                            $name = isset($_POST['name']) ? Filtro($_POST['name']) : '';
+                            $mail = isset($_POST['mail']) ? Filtro($_POST['mail']) : '';
+                            $addr = isset($_POST['addr']) ? Filtro($_POST['addr']) : '';                            
+                            $alcalde = isset($_POST['alcalde']) ? Filtro($_POST['alcalde']) : '';
+                            $concejal = isset($_POST['concejal']) ? Filtro($_POST['concejal']) : '';
+                            $gender = isset($_POST['gender']) ? Filtro($_POST['gender']) : '';
+                            $comentario = isset($_POST['comentario']) ? Filtro($_POST['comentario']) : '';
+                            $error = '';
+
+                            if($enviado == 1 && $contenido == 1) {
+                                  echo '<pre>';
+                                  print_r($_POST);
+                                  echo '</pre>';
+                                  exit;
+                                } else if(empty($name)) {
+                                  $error = 'Por favor, ingrese su nombre.';
+                                } else if(empty($mail)) {
+                                  $error = 'Por favor, ingrese su correo electrónico.';
+                                } else if(empty($addr)) {
+                                  $error = 'Por favor, ingrese su contraseña.';
+                                } else if(!empty($comentario)) {
+                                  $error = 'Anuló su voto!';
+                                }
+                                // Vista de error
+                                if(!empty($error)) {
+                                ?>
+                                <div class="alert alert-info">
+                                  <i class="glyphicon glyphicon-info-sign"></i>
+                                  <?php echo $error; ?>
                                 </div>
-                                <!-- /.col-lg-6 (nested) -->
-                                
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
+                                <a href="./" class="btn btn-warning">
+                                  <i class="glyphicon glyphicon-chevron-left"></i>
+                                  Volver
+                                </a>
+                                <?php
+                                // Vista de éxito
+                                } else {
+                                  // Subir imagen
+                                ?>
+                                  
+                                <?php } ?>
                             </div>
                             <!-- /.row (nested) -->
                         </div>
